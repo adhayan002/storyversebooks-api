@@ -20,21 +20,14 @@ const salt = bcrypt.genSaltSync(10);
 
 
 mongoose.connect('mongodb+srv://adhayan436:k49fdx7rO0l2CFgr@cluster0.gzbhwzt.mongodb.net/?retryWrites=true&w=majority');
-app.use(session({
-  secret: 'cat is nice',
-  resave: false,
-  saveUninitialized: true,
-}))
-app.use(passport.initialize())
-app.use(passport.session())
+
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cors({
   origin: 'https://storyversebooks-client.vercel.app',
-  methods: 'POST',
-  allowedHeaders: 'Content-Type',
+  methods: 'POST','PUT',
 }));
-app.use(helmet())
+
 
 app.use("/auth",authRoutes)
 
