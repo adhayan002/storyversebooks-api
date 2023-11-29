@@ -29,7 +29,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: 'https://storyversebooks-client.vercel.app',
+  methods: 'POST',
+  allowedHeaders: 'Content-Type',
+}));
 app.use(helmet())
 
 app.use("/auth",authRoutes)
