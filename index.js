@@ -23,10 +23,7 @@ mongoose.connect('mongodb+srv://adhayan436:k49fdx7rO0l2CFgr@cluster0.gzbhwzt.mon
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use(cors({
-  origin: 'https://storyversebooks-client.vercel.app',
-  methods: 'POST','PUT',
-}));
+app.use(cors({ origin: '*' }));
 
 
 app.use("/auth",authRoutes)
