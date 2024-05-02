@@ -82,22 +82,41 @@ app.post('/logout', (req, res) => {
 });
 
 
-app.post("/upload-book",async(req,res)=>{
-  try{
-    const data=req.body
-    console.log(data)
-    const book=new Book(data);
+app.post("/upload-book", async (req, res) => {
+  try {
+    const { bookTitle, seller, category, author, imageURL, bookDescription, bookPDFURL } = req.body;
+
+
+    // Construct the book data object
+    const data = {
+      bookTitle,
+      seller,
+      category,
+      author,
+      imageURL,
+      bookDescription,
+      bookPDFURL
+    };
+
+    // Create a new Book instance
+    const book = new Book(data);
+
+    // Save the book to the database
     const result = await book.save();
 
+    // Send the result back to the client
     res.send(result);
-  }catch(error){
+  } catch (error) {
     if (error.code === 11000) {
-      res.status(400).json("A book with the same title and author already exists.");
+      // Extract the duplicate key field names from the error message
+      const duplicateKey = Object.keys(error.keyValue).join(" and ");
+      res.status(400).json(`A book with the same ${duplicateKey} already exists.`);
     } else {
+      // If any other error occurs, send a generic error message
       res.status(500).json({ error: error.message });
     }
   }
-})
+});
 
 app.get("/all-books", async (req, res) => {
   try {
